@@ -6,7 +6,7 @@ from nltk.lm.preprocessing import pad_both_ends,flatten,padded_everygram_pipelin
 from nltk.lm import MLE,Vocabulary,Lidstone,WittenBellInterpolated,KneserNeyInterpolated
 from nltk.tokenize.treebank import TreebankWordDetokenizer
 detokenize = TreebankWordDetokenizer().detokenize
-DATA_TYPE="tw"
+DATA_TYPE="fb"
 if DATA_TYPE in ("tw","insta","fb"):
 	DATA_PATH = "../data/preprocessed_data/"+DATA_TYPE
 	for file in os.listdir(DATA_PATH):
@@ -212,7 +212,7 @@ def main():
 	print("Development sents: ",len(dev_sents))
 	lm_types={"mle":[None,"lid"],"interp":["wb","ksn"]} ## (ngram_model,smoothing) pairs
 	N=[1,2,3]
-	#train_language_models(N,train_sents,lm_types,forced_save=True)
+	train_language_models(N,train_sents,lm_types,forced_save=True)
 	#print()
 	'''print("Loading Language Models...\n")
 	models = get_models()
