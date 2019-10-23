@@ -1,4 +1,4 @@
-import os,re,sys,dill as pickle, json,itertools
+import os,re,sys,dill as pickle, json,itertools,string
 from sklearn.model_selection import train_test_split
 from collections import Counter,defaultdict
 from nltk.util import pad_sequence,bigrams,ngrams,everygrams
@@ -10,7 +10,8 @@ DATA_TYPE="fb"
 if DATA_TYPE in ("tw","insta","fb"):
 	DATA_PATH = "../data/preprocessed_data/"+DATA_TYPE
 	for file in os.listdir(DATA_PATH):
-		DATA_PATH=os.path.join(DATA_PATH,file)
+		if file==DATA_TYPE+"_data":
+			DATA_PATH=os.path.join(DATA_PATH,file)
 	MODEL_PATH = "../lm_models/ngram_models/"+DATA_TYPE
 	MODEL_DATA_PATH = "../model_data/"+DATA_TYPE
 	for path in [MODEL_PATH,MODEL_DATA_PATH]:
@@ -39,9 +40,17 @@ def write_in_file(filename,data):
 	fd.write("\n".join(data))
 	fd.close()
 
+
+def punctuations_removal(tokens,type_="str"):
+	translator = str.maketrans(string.punctuation + '|', ' '*(len(string.punctuation)+1))
+	if type_!="str":
+		return [token.strip().translate(translator) for token in tokens if token.strip()]
+	else:
+		return tokens.translate(translator)
+
 def train_test_dev_split(data_path,output_path):
 	print("Splitting data into train,test and dev..")
-	data_sents = [line.strip().split() for line in open(data_path).read().split("\n") if line.strip()]
+	data_sents = [punctuations_removal(line.strip().split(),type_="list") for line in open(data_path).read().split("\n") if line.strip()]
 	train_sents, test_sents = train_test_split(data_sents, test_size = 0.2)
 	test_sents,dev_sents = train_test_split(test_sents,test_size=0.5)
 	p = os.path.join(output_path,"train_sents.pkl")
@@ -145,6 +154,8 @@ def ksn_interp_model(n,train_data,discount,forced_save):
 		save_model(p,model)
 
 def get_models():
+	print()
+	print("Loading Language Models...\n")
 	models={"1":{},"2":{},"3":{}}
 	for file in os.listdir(MODEL_PATH):
 		if os.path.isfile(os.path.join(MODEL_PATH,file)):
@@ -156,23 +167,29 @@ def get_models():
 				models["2"][model_name]=model
 			else:
 				models["3"][model_name]=model
+	for model_type in models:
+		print(ngram_map[int(model_type)].upper()+":")
+		print("\n".join(list(models[model_type].keys())))
+		print()
 	return models
 
 def train_language_models(N,train_sents,lm_types,forced_save):
 	for n in N:
-		train_ngrams,train_vocab = padded_everygram_pipeline(n, train_sents)
-		train_data={"ngrams":train_ngrams,"vocab":train_vocab} ## train lm on it
 		print("Building "+ngram_map[n].upper()+" MODEL...")
 		for model_type,smoothing_type in lm_types.items():
 			for smoothing in smoothing_type:
+				train_ngrams,train_vocab = padded_everygram_pipeline(n, train_sents)
+				train_data={"ngrams":train_ngrams,"vocab":train_vocab} ## train lm on it
 				language_model(train_data,n=n,model_type=model_type,smoothing_type=smoothing,forced_save=forced_save)
 
 
-def generate_sent(num_words, context, model,random_seed=42):
+def generate_sent(num_words, model,context=None ,random_seed=3):
 	## for unconditioned_generation context = None
 	#context: list of tokens
 	content=[]
-	for token in model.generate(num_words,context,random_seed=random_seed):
+	tokens = model.generate(num_words,text_seed=context,random_seed=random_seed)
+	print(tokens)
+	for token in tokens:
 		if token=='<s>':
 			continue
 		if token=="</s>":
@@ -187,14 +204,44 @@ def data_perplexity(n,test_ngrams,model):
 	s=float(0)
 	c=0
 	for ngrams in test_ngrams:
+		if c>20:
+			break
 		s=model.perplexity(ngrams)
-		print(s)
+		print(ngrams,s)
 		c+=1
 	'''try:
 		s/=c
 	except ZeroDivisionError:
 		raise Exception('Float division by zero! Cannot find Perplexity')
 	return s'''
+
+def model_score_test(model_name):
+	#model_name="2-interp-wb.pkl"
+	model = load_model(os.path.join(MODEL_PATH,model_name))
+	print(model.score('priyansh',['my']))
+	print(model.logscore('priyansh',['my']))
+	print(model.score('models'))
+	print(model.logscore('models'))
+	print(model.score('models',['loading','language']))
+	print(model.logscore('models',['loading','language']))
+	print(model.score('satz',['das','ist']))
+	print(model.logscore('satz',['das','ist']))
+	print(model.score('model',['my',"name","is"]))
+	print(model.logscore('model',["my","name","is"]))
+
+def model_perplexity_test(order):
+	n=order
+	#n=3
+	#test_sents =[ list(flatten(test_sents))]
+	test_ngrams,_ = padded_everygram_pipeline(n,test_sents)
+	data_perplexity(n,test_ngrams,model)
+
+def model_batch_perplexity_test(models):
+	for model_type in models: ## different model perplexity
+		for model_name in models[model_type]:
+			test_ngrams,test_vocab = padded_everygram_pipeline(int(model_type),test_sents)
+			test_data={"ngrams":test_ngrams,"vocab":test_vocab} ## test lm on it
+			print(model_type,model_name,data_perplexity(int(model_type),test_data["ngrams"],models[model_type][model_name]))
 
 def main():
 	if os.path.exists(MODEL_DATA_PATH):
@@ -213,25 +260,12 @@ def main():
 	lm_types={"mle":[None,"lid"],"interp":["wb","ksn"]} ## (ngram_model,smoothing) pairs
 	N=[1,2,3]
 	train_language_models(N,train_sents,lm_types,forced_save=True)
-	#print()
-	'''print("Loading Language Models...\n")
-	models = get_models()
-	for model_type in models:
-		print(ngram_map[int(model_type)].upper()+":")
-		print("\n".join(list(models[model_type].keys())))
-		print()'''
-	'''n=3
-	model_name="3-mle.pkl"
+	#models = get_models()
+	'''model_name="3-interp-wb.pkl"
 	model = load_model(os.path.join(MODEL_PATH,model_name))
-	test_sents =[ list(flatten(test_sents))]
-	test_ngrams,_ = padded_everygram_pipeline(n,test_sents)
-	data_perplexity(n,test_ngrams,model)'''
-
-	'''for model_type in models: ## different model perplexity
-		if model_type=="3":
-			test_ngrams,test_vocab = padded_everygram_pipeline(int(model_type),test_sents)
-			test_data={"ngrams":test_ngrams,"vocab":test_vocab} ## test lm on it
-			for model_name in models[model_type]:
-				print(model_type,model_name,data_perplexity(int(model_type),test_data["ngrams"],models[model_type][model_name]))'''
+	print(len(model.vocab))
+	num_words = 10
+	context=['you','look','so']
+	print(generate_sent(num_words,model,context))'''
 if __name__ == '__main__':
 	main()
