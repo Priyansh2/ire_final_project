@@ -1,0 +1,10 @@
+==========================================
+SLURM_JOB_ID = 44646
+SLURM_NODELIST = gnode27
+SLURM_JOB_GPUS = 
+==========================================
+18871
+378730
+38285
+Total FB_posts:  433060
+Total FB_comments:  973373

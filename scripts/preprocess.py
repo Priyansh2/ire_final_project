@@ -23,6 +23,7 @@ nlp = spacy.load('en')
 nlp.add_pipe(LanguageDetector(), name='language_detector', last=True)
 nlp1 = spacy.load('en_core_web_sm')
 MIN_TOKENS=5
+MAX_SEQ = 500000
 all_emoticons = ['(＠_＠;)', '~:>', '=p', ':‑.', '|-)', ':-]', '=P~', 'b-(', '😜', '(^○^)', '(v)o￥o(v)', 'o:-)', '🙆', '(^_-)-☆', ':-\\', '(Ｔ▽Ｔ)', '(*_*)', '(w)', ':o(', '<`ヘ´>', 'ಠ_ಠ', ';(', '(^・^)', '(✿◠‿◠)', ':)', '3:)', '😗', '😞', '(/◕ヮ◕)/', '😔', ':^)', 'x-p', '=-3', '🙊', '_(._.)_', '(^.^)/~~~', ":'-)", '8-0', ':((', '🏂', '=D>', '>:p', ':-"', '(?_?)', '🤓', '(so)', 'o_O', ':)>-', ':‑j', '😽', 't.t', '\\U0001f604', '^_^', ';‑]', '👶', '🙍', ',:-)', ':-L', ':-p', ':!!', '(^o^)／', '[-(', '😱', '(－‸ლ)', 'd=', '(+_+)', 'x-d', '=p~', '#:-S', ':‑|', ':‑þ', '😇', ';^)', '=-D', '😣', ':o3', '(~o~)', '(C)', '😿', "+/'\\", ':-j', '（´∀｀）', '%-(', '8-d', '0:‑3', '(´･ω･`)', '(-""-)', '$-)', '＼(◎o◎)／！', '😥', ';d', ':-þ', '<3', '<^!^>', '(;', '(Z)', '🙅', ':###..', 'Q_Q', '😒', '(._.)', '=:)', 'XP', '(6)', '=:o]', '(＾▽＾)', '=((', '(:_;)', ':‑)', '<(｀^´)>', ':o)', '(I)', '👽', '🎧', 'x-@', '(B)', '(^<^)', '(^^)', ':‑/', '@>‑‑>‑‑', "D-':", 'o/\\o', '=))', '😙', '(E)', '\\U0001f44b', '🍵', '☄️', ':\\', '>:s', '😄', ':-ss', '(>_<)>', ':-??', ';))', '(y)', ';-;', 'O:‑)', '😉', '(N)', '（’-’*)', '😫', ':]', '@}->--', ':っc', '<):)', '😮', '^o)', '(*^^)v', ':-#', ':^*', '>.<', '}:‑)', '(p)', 'X‑P', ':-(', '(゜_゜>)', ':-[', '8)', '(d)', '(o)', ':‑O', '(・・?', '°O°', ':p', '😟', '😹', '(^)o(^)', '%%-', 'V.v.V', 'x‑p', '(-_-メ)', "d-':", '(一一)', '(li)', ':-P', ':o', '(__)', '<`～´>', '|-O', '(*^。^*)', 'ヽ(^o^)丿', '😤', '\\u0001f3fb', '(ToT)', 'o_o', ':X', ':|', '(8)', '(^ム^)', ':-*', '=/', 'DX', '(-_-)zzz', '~X(', '\\U0001f1f3', 'XD', '8-X', '#-o', "(';')", '(=^・・^=)', '(ーー゛)', ';n;', ':}', '😀', 'O_o', '(&)', ':P', '😓', '🙌', ':‑J', ':っ)', '🙉', '3:-o', '[-o<', '(^_^メ)', ':‑X', 'xp', '\\U0001f64f', '🤔', '(sn)', '\\u0001f620', '🙀', '8‑d', 'd:', '(^_^)/~', '+o(', '|‑o', ':-))', '∩(・ω・)∩', ':-&', ':‑o', '(||)', ':{', '(*°∀°)=3', '>_>^', '\\:D/', '(~_~;)', '\\u0001f602', '8o|', '(})', ':<', '🐍', '(ー_ー)!!', '>:-)', '\\u0001f64f', '💯', '👋', 'l-)', '(~_~メ)', '\\u0001f3c2', '(um)', "@}‑;‑'‑‑‑", '(:', '°o°', 'm(__)m', '☺️', '(-.-)', '😳', ':‑#', '(-_-)', ':))', '8‑D', '~:‑\\', '😖', '><>', '3:‑)', '>:D<', '(^J^)', '🔘', '</3', ':-x', '(^o^)丿', '＼(-o-)／', '(゜.゜)', '(^0_0^)', '><(((*>', ':‑[', 'D8', '>:S', '~o)', '(co)', '😡', '//0-0\\\\', "('_')", '(mp)', '<:-|', '(=_=)', 'x_x', '}:-)', '(g)', '//0‑0\\\\', ';-D', '(^_^.)', '=3', ':-.', '(^^;)', '(‘a`)', ':-@', '😲', 'q.q', ')^o^(', '😦', '\\U0001f3c2', '8-)', '🐠', '(;_;)/~~~', '😯', '🦇', '(;_:)', '8-D', '^#(^', '(t_t)/~~~', '(;O;)', '-D', ':O', '😐', ':@', ':-0', '<(o0o)>', '((d[-_-]b))', '(%)', '*-)', '>:[', '(^.^)', ':-###..', '😪', '0:‑)', ':&', '☺', '(・_・;)', '(tot)', '(ip)', ':(', '😃', '(au)', 'o_0', '\\u0001f61c', '\\U0001f602', 'B^D', ':-Þ', '@};-', ':^(', '😠', '(^_^)v', ':d', '（⌒▽⌒）', '(゜レ゜)', ':‑P', '(ToT)/~~~', ':*', '😁', ':bz', '(bah)', 'o.O', ';-d', '%)', ":'-(", ':っC', '😈', 'o.o', '(>_<)', '(K)', '🇳', '🤑', '🐱', '~x(', '(b)', '🤦', '(・。・;)', '=]', '#-)', 'O:)', '({)', ':)]', '（・∀・）', '🦈', '~(_8^(I)', '😵', '(pi)', '>:‑)', '(T_T)', 'o->', '=\\', '(;o;)', 'o-o', '(*^0^*)', 'L-)', '=;', '☹️', '(O)', ':‑p', ';]', '<\\3', '🐟', ':!', '(x)', '🙈', ':#', '😴', '8d', ':>', '(t_t)', '（＾－＾）', '🇮', ':-q', '[:|]', '🖐', '(^)', ':->', '(P)', '>:\\', '(a)', ';D', '7:^]', 'v.v.v', '\\U0001f590', ':~)', "D‑':", '^/^', '(st)', '(-:', '(s)', 'b-)', '😨', '|;-)', 'i-)', ':c)', ':O)', '🤕', '(Y)', 'x-D', '😅', '😼', '%‑)', ':-3', ';-)', ':‑&', '\\U0001f620', '(T_T)/~~~', '😊', '(・ω・)', ':b', '（＾◇＾）', '\\U0001f518', ':-s', '(D)', '0:3', ':S', '(U)', '=_^=', ':l', '(o.o)', ":'‑(", 'I-)', '(^_-)', '*-:)', '\\U0001f4af', '\\o/', '😬', 'o=>', 'd:<', 'ヽ(^。^)ノ', '(#^.^#)', '($・・)/~~~', '((+_+))', ':-$', ':^o', '(M)', ':-?', 'o:)', '🙄', '@-)', 'qq', '=d>', '(^^ゞ', '8‑0', '.....φ(・∀・＊)', '=L', '>:{', ':[', ':/', '(W)', ':-,', '(^^)/~~~', '😺', ';P', '~O)', 'D:', '🙂', '\\u0001f60a', ':"(', '(c)', ':-S', '😌', '(f)', ':×', '(A)', '(z)', '(^。^)', '🐳', '^ω^', '😩', ':ar!', ':þ', '💤', '(@_@)', '(^_^)/', '>_>^^<_<', '\\u0001f4af', '😻', 'd8', '(X)', '<(__)>', '|‑O', '😾', ':@)', '(S)', '[..]', '>:(', ':-t', '😷', '8->', '(^^)v', '_(_^_)_', '(l)', '**==', ':,(', ':‑Þ', '(F)', '0;^)', 'xd', '@>-->--', ':-h', '*\\0/*', ':‑###..', '^<_<', '(:|', '(t)', ':L', '=P', '>^_^<', '（*^_^*）', '(*^▽^*)', '🙁', '😶', ':‑<', '\\:d/', '\\U0001f1ee', '#:-s', '(*)', ':-)', '(-_-;)', ';-]', '<*)))‑{', '*<|:-)', '(k)', '（￣□￣；）', 'q_q', '5:‑)', '>:/', '💣', '\\u0001f1f3', '(^j^)', '(T)', '(n)', ':-X', 'v.v', '0:-3', '(｀´）', '（*´▽｀*）', '(o|o)', '(゜_゜)', ':-O', '👾', '🐋', '🙃', '<m(__)m>', '<:-p', ':‑x', '\\u0001f590', '(@^^)/~~~', '=(', '0:)', ':‑c', '~(_8^(i)', '＼(~o~)／', 'xD', '😢', '(^_^;)', '^:)^', ',:‑)', '^_^;', ':x', 'd;', ':$', ':‑(', ':s', ';‑)', 'X_X', '\\u0001f518', 'x(', '[-x', 'x‑d', '^5', '(u)', '🙏', '(H)', '\\U0001f61c', '😝', ':\\*', '(h)', '😏', '8-x', 'D=', ':‑d', ':-l', '^^;', '|-o', 'B-)', ':Þ', '-d', '(G)', ':">', '😸', ';p', '🏻', ':-d', '|;‑)', '\\u0001f1ee', 'b^d', 'X-P', '<:o)', '😰', '\\U0001f31f', '=l', 'o‑o', '😆', '*<|:‑)', '(゜-゜)', '🤐', '\\u0001f31f', '*)', 'X-D', '0:-)', '>:)', 'dx', '\\u0001f604', '🙎', '☕️', ":'(", ':(:)', '😋', '☹', ':-<', '(‘A`)', '(;_;', "@}-;-'---", 'o-+', '>;)', ':‑,', ':-w', '}:)', '＼(^o^)／', ':-||', '=D', "d‑':", 'x‑D', '>:d<', ':‑b', '😘', '🤢', ';)', '(m)', '>:o', '(L)', '🙇', '(pl)', '🤒', '3:-)', '(；一_一)', 'QQ', '\\m/', '😭', '#‑)', '\\u0001f44b', '(e)', '=d', ':-b', ":')", '(ap)', '<:-P', '👼', ':(|)', '(;_;)', '=-d', '🚬', '~:-\\', '>:O', '🌟', ':-/', '§^。^§', '^m^', 'T.T', 'O-O', '(*^3^)/~☆', '3:-O', '😛', ':c', '=)', '\\U0001f60a', ':-c', '😚', '🙋', '(@)', '(~)', '8D', '(ｔ▽ｔ)', ';_;', '（￣ー￣）', '\\U0001f3fb', '😑', 'D;', '(・・;)', ':-bd', '>-)', '😂', '~@~', 'X‑D', '😍', '/:)', '>:', '>:P', '(^_^)', '(・へ・)', '<*)))-{', '(^O^)／', '😕', '[-X', '🐬', ':-SS', '（●＾o＾●）', '（＾ｕ＾）', 'o:‑)', '(@_@。', '(ーー;)', '💃', 'X(', ':-o', '(゜o゜)', '(*￣m￣)', ':-D', '(*_*;', ':D', '😎', '(^^)/', ":'‑)", 'O:-)', '（＾ｖ＾）', '🐡', '(≧∇≦)/', '🐙', '😧', ':3', '(p_-)', ':-B', '(-;', '(..)', ':-}', ';o)', '(+o+)', '(~~)', ':-|', '(V)o￥o(V)', '<:‑|', 'Q.Q', ';;)', '(^o^)', '5:-)', '8-}', '(mo)', '(i)', '(/_;)', 'x-(', '☻', ':‑D', 'O_O', '[-O<', '(－－〆)', '%-)', '!(^^)!', '(゜゜)', '(tot)/~~~', '(=^・^=)', ':-J', 'D:<', '✌️', '(^O^)', '8-|', '(~_~)']
 
 # Takes tokenised tweet as input argument and return the list of emoticons
@@ -181,8 +182,29 @@ def get_sentences(data):
 			temp.append(sentence.text)
 	return temp
 
-def get_preprocessed_data(data,sentence_segmentation=False,mode="default"):
+
+def TextPreprocessing(data,text_processor,sentence_segmentation=False,pre_lang_check=True,mode=0):
 	global MIN_TOKENS
+	sents = [fix_text(sent) for sent in data]
+	if pre_lang_check:
+		sents = [sent for sent in sents if is_english(sent)]
+	if sentence_segmentation:
+		sents = get_sentences(sents)
+	sents = [remove_emoticon(" ".join(remove_slang(sent.split()))) for sent in sents]
+	sents = [TwitterPreprocessor(" ".join(sent)).remove_blank_spaces().text for sent in list(text_processor.pre_process_docs(sents))]
+	sents = [sent.replace("<censored>","").replace("<emphasis>","").replace("<elongated>","").replace("<repeated>","") for sent in sents]
+	if mode:
+		MIN_TOKENS*=2
+	sents = [sent.strip() for sent in sents if len(sent.split())>MIN_TOKENS and check_en_lang(sent)]
+	return sents
+
+def get_mode(data_type):
+	mode=0
+	if data_type=="post":
+		mode=1
+	return mode
+
+def get_preprocessed_data(raw_data,sentence_segmentation=False,pre_lang_check=True):
 	text_processor = TextPreProcessor(
 	omit=['url', 'email', 'user'],
 	normalize=['url', 'email', 'user'],
@@ -194,41 +216,70 @@ def get_preprocessed_data(data,sentence_segmentation=False,mode="default"):
 	spell_correct_elong=False,
 	spell_correction=False,
 	tokenizer=SocialTokenizer(lowercase=True).tokenize)
-	sents = [fix_text(sent) for sent in data]
-	sents = [sent for sent in sents if is_english(sent)]
-	if sentence_segmentation:
-		sents = get_sentences(sents)
-	sents = [remove_emoticon(" ".join(remove_slang(sent.split()))) for sent in sents]
-	sents = [TwitterPreprocessor(" ".join(sent)).remove_blank_spaces().text for sent in list(text_processor.pre_process_docs(sents))]
-	sents = [sent.replace("<censored>","").replace("<emphasis>","").replace("<elongated>","").replace("<repeated>","") for sent in sents]
-	if mode=="post":
-		MIN_TOKENS*=2
-	sents = [sent.strip() for sent in sents if len(sent.split())>MIN_TOKENS and check_en_lang(sent)]
-	return sents
+	processed_data=[]
+	for data_type in raw_data:
+		if len(raw_data[data_type])>=MAX_SEQ:
+			chunks = int(len(raw_data[data_type])/MAX_SEQ)
+			for j in range(chunks):
+				processed_data+=TextPreprocessing(raw_data[data_type][MAX_SEQ*j:MAX_SEQ*(j+1)],text_processor,sentence_segmentation,pre_lang_check,get_mode(data_type))
+			if MAX_SEQ*chunks!=len(raw_data[data_type]):
+				processed_data+=TextPreprocessing(raw_data[data_type][MAX_SEQ*chunks:],text_processor,sentence_segmentation,pre_lang_check,get_mode(data_type))
+		else:
+			processed_data+=TextPreprocessing(raw_data[data_type],text_processor,sentence_segmentation,pre_lang_check,get_mode(data_type))
+	return processed_data
 
-DATA_TYPE="fb"
+DATA_TYPE="tw"
 if DATA_TYPE in ("tw","insta","fb"):
 	DATA_PATH = "../data/raw_data/"+DATA_TYPE
+
+data=defaultdict(list)
+comments=False
 for file in os.listdir(DATA_PATH):
 	FILE_PATH=os.path.join(DATA_PATH,file)
 	if DATA_TYPE=="tw":
-		data = [",".join(sent.strip().split(",")[1:]) for sent in open(FILE_PATH,"r").read().split("\n")]
-	if DATA_TYPE=="fb":
-		if file=="fb_posts":
-			data = [ ",".join(sent.strip().split(",")[1:]) for sent in open(FILE_PATH,"r").read().split("\n") if sent.strip()]
+		if file=="tweets.txt":
+			for sent in open(FILE_PATH,"r").read().split("\n"):
+				sent = sent.strip()
+				if sent:
+					temp  = ",".join(sent.split(",")[1:])
+					if temp not in data['comment']:
+						data['comment'].append(temp)
+	elif DATA_TYPE=="fb":
+		if file=="fb_posts" or file=="fb_comments":
+			for sent in open(FILE_PATH,"r").read().split("--------------------"):
+				sent = sent.strip()
+				if sent:
+					temp = ",".join(sent.strip().split(",")[1:]).replace("\n","")
+					if 'post' in file:
+						if temp not in data['post']:
+							data['post'].append(temp)
+					else:
+						if temp not in data['comment']:
+							data['comment'].append(temp)
+	else:
+		if file=="insta_captions" or file=="insta_comments":
+			for sent in open(FILE_PATH,"r").read().split("--------------------"):
+				sent=sent.strip()
+				if sent:
+					temp = ":".join(sent.strip().split(":")[1:]).replace("\n","")
+					if 'caption' in file:
+						if temp not in data['post']:
+							data['post'].append(temp)
+					else:
+						if temp not in data['comment']:
+							data['comment'].append(temp)
+
+print("Total posts/captions in raw_data: ",len(data['post']))
+print("Total comments in raw_data: ",len(data['comment']))
+print("Total sequences in raw_data: ", len(data['post'])+len(data['comment']))
 DATA_PATH = "../data/preprocessed_data/"+DATA_TYPE
 if not os.path.exists(DATA_PATH):
 	os.makedirs(DATA_PATH)
-''''data=["Thousands say their final goodbyes to Bradley Lowery http://bbc.in/2ugAwWm 💙\n\n(Via BBC Look North (North East & Cumbria))",
-'"You really can’t understand George Washington’s life without understanding the lives of the people whose lives were intertwined with his, whose work supported his estate." \n\nAt George Washington\'s Mount Vernon, remembering the enslaved people who built America. (produced by middle and high school students as part of Student Reporting Labs)'
-]
-print(data)'''
+
+pre_lang_check=True
 if DATA_TYPE in ("insta","fb"):
-	mode="post"
-else:
-	mode="default"
-print("Total sequences in raw_data: ", len(data))
-data = get_preprocessed_data(data,mode=mode)
-#print(data)
+	if DATA_TYPE=="insta":
+		pre_lang_check=False
+data = get_preprocessed_data(data,pre_lang_check=pre_lang_check)
 preprocessed_filename=DATA_TYPE+"_data"
 write_in_file(os.path.join(DATA_PATH,preprocessed_filename),data)

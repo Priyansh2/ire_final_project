@@ -5,7 +5,7 @@ from collections import Counter,defaultdict
 import random
 import codecs
 import shutil
-
+cnt=0
 def get_random_number(nums,min,max,step):
 	while True:
 		r = random.randrange(min,max+2,step)
@@ -14,16 +14,19 @@ def get_random_number(nums,min,max,step):
 			break
 	return num
 
+def utf16_to_utf8(path):
+	for dir_ in os.listdir(path):
+		if not os.path.isfile(os.path.join(path,dir_)):
+			for file in os.listdir(os.path.join(path,dir_)):
+				inpfile = os.path.join(os.path.join(path,dir_),file)
+				with open(inpfile, 'rb') as source_file:
+					with open(os.path.join(path,file), 'w+b') as dest_file:
+						contents = source_file.read()
+						dest_file.write(contents.decode('utf-16').encode('utf-8'))
+
 DATA_TYPE="fb"
 if DATA_TYPE in ("tw","insta","fb"):
 	DATA_PATH = "../data/raw_data/"+DATA_TYPE
-'''for file in os.listdir(DATA_PATH):
-	lines =[",".join(line.strip().split(",")[1:])  for line in open(os.path.join(DATA_PATH,file)).read().split("\n") if line.strip()]
-	print(len(lines))
-	for line in lines:
-		if "\n" in line:
-			print(line)
-sys.exit()'''
 FB_PAGES = {
 	'bbc': '228735667216',
 	'FoxNews': '15704546335',
@@ -142,6 +145,7 @@ with open(os.path.join(FB_PAGES_DATA_PATH,"fb_news_posts_20K.csv")) as f:
 					page_post_id_map[pageid].append(postid)
 					if not post_text.isdigit() and post_text.strip():
 						FB_PAGES_DATA[pageid]['post'][postid].append(post_text.strip())
+						cnt+=1
 					#else:
 						#print("lol",post_text,[post_text])
 				#else:
@@ -149,21 +153,13 @@ with open(os.path.join(FB_PAGES_DATA_PATH,"fb_news_posts_20K.csv")) as f:
 			except:
 				pass
 		l+=1
-
-path=os.path.join(DATA_PATH,"martinchek-2012-2016-facebook-posts")
-def utf16_to_utf8(path):
-	for dir_ in os.listdir(path):
-		if not os.path.isfile(os.path.join(path,dir_)):
-			for file in os.listdir(os.path.join(path,dir_)):
-				inpfile = os.path.join(os.path.join(path,dir_),file)
-				with open(inpfile, 'rb') as source_file:
-					with open(os.path.join(path,file), 'w+b') as dest_file:
-						contents = source_file.read()
-						dest_file.write(contents.decode('utf-16').encode('utf-8'))
+print(cnt)
+cnt=0
+#path=os.path.join(DATA_PATH,"martinchek-2012-2016-facebook-posts")
 #utf16_to_utf8(path)
-for file in os.listdir(path):
-	if os.path.isfile(os.path.join(path,file)):
-		with open(os.path.join(path,file)) as f:
+for file in os.listdir(os.path.join(DATA_PATH,"martinchek-2012-2016-facebook-posts/utf8-converted")):
+	if os.path.isfile(os.path.join(DATA_PATH,"martinchek-2012-2016-facebook-posts/utf8-converted/"+file)):
+		with open(os.path.join(DATA_PATH,"martinchek-2012-2016-facebook-posts/utf8-converted/"+file)) as f:
 			rows = csv.reader(f,delimiter=',')
 			l=0
 			for row in rows:
@@ -179,6 +175,7 @@ for file in os.listdir(path):
 							if not post_text.isdigit() and post_text.strip() and post_text!='NULL':
 								#print("ok")
 								FB_PAGES_DATA[pageid]['post'][postid].append(post_text.strip())
+								cnt+=1
 							#else:
 								#print("lol",post_text)
 						else:
@@ -186,6 +183,8 @@ for file in os.listdir(path):
 					except:
 						pass
 				l+=1
+print(cnt)
+cnt=0
 with open(os.path.join(FB_PAGES_DATA_PATH,"fb_news_comments_1000K.csv")) as f:
 	rows = csv.reader(f,delimiter=',')
 	l=0
@@ -236,27 +235,39 @@ for filename in matched_pages+unmatched_new_pages:
 			else:
 				postid="9999999999"
 			FB_PAGES_DATA[pageid]['post'][postid].extend(posts)
+			cnt+=1
 			if comments:
 				FB_PAGES_DATA[pageid]['comment'][postid].extend(comments)
 
 		else:
 			print("lol",post)
-
+print(cnt)
 temp=[]
 f = open(os.path.join(DATA_PATH,"fb_posts"),"w")
+content=[]
+filter_=[]
 for pageid in FB_PAGES_DATA:
 	for postid in FB_PAGES_DATA[pageid]['post']:
 		for post_text in list(set(FB_PAGES_DATA[pageid]['post'][postid])):
 			if "_".join([pageid.strip(),postid.strip()]) not in temp:
 				temp.append("_".join([pageid.strip(),postid.strip()]))
-				f.write("_".join([pageid.strip(),postid.strip()])+","+post_text.strip()+"\n")
+				content.append("_".join([pageid.strip(),postid.strip()])+","+post_text.strip().replace("\n",""))
+			#else:
+				#print("lol")
+f.write("--------------------".join(content))
 f.close()
+print("Total FB_posts: ",len(content))
 f = open(os.path.join(DATA_PATH,"fb_comments"),"w")
+content=[]
 for id_ in temp:
 	pageid=id_.split("_")[0]
 	postid = id_.split("_")[1]
 	for comment_text in list(set(FB_PAGES_DATA[pageid]['comment'][postid])):
-		f.write("_".join([pageid,postid])+","+comment_text.strip()+"\n")
+		if comment_text not in filter_:
+			filter_.append(comment_text)
+		content.append("_".join([pageid,postid])+","+comment_text.strip().replace("\n",""))
+f.write("--------------------".join(content))
 f.close()
+print("Total FB_comments: ",len(filter_))
 
 
