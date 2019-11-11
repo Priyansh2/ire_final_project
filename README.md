@@ -23,16 +23,17 @@ The word "sequence" refers to 'tweets' for twitter, it can be post or a comment 
 ## Usage
 
 ### 1. Training
-   #### N-Gram Model
-   For ngram, use:
-   ```console
-    ./train.sh ngram <Path to data file> <Path to store trained model>
-   ```
-   #### LSTM Model
-   For lstm, use:
-   ```console
-   ./train.sh lstm <Path to data file> <Path to store trained model>
-   ```
+```
+#### N-Gram Model
+For ngram, use:
+console
+./train.sh ngram <Path to data file> <Path to store trained model>
+   
+#### LSTM Model
+For lstm, use:
+console
+./train.sh lstm <Path to data file> <Path to store trained model>
+```
    
 ### 2.  Text Generation
    #### N-Gram Model
