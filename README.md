@@ -23,52 +23,53 @@ The word "sequence" refers to 'tweets' for twitter, it can be post or a comment 
 ## Usage
 
 ### 1. Training
-   #### N-Gram Model
-   For ngram, use:
-   ```console
+Set the optional parameter values required for training in ```train.sh``` file.Default Values for parameters is present in Tuning Parameter Section.
+```
+1.1 N-Gram Model,use
+    console
     ./train.sh ngram <Path to data file> <Path to store trained model>
-   ```
-   #### LSTM Model
-   For lstm, use:
-   ```console
-   ./train.sh lstm <Path to data file> <Path to store trained model>
-   ```
+   
+1.2 LSTM Model,use:
+     console
+    ./train.sh lstm <Path to data file> <Path to store trained model>
+```
    
 ### 2.  Text Generation
-   #### N-Gram Model
-
-   ##### 1 For unconditional ngram text generation, use:
-   ```console
-   ./predict.sh ngram <un>(unconditional flag) <no of words> <Path to use trained model>
-   ```
-
-   ##### 2. For conditional ngram text generation, use:
-   ```console
-   ./predict.sh ngram <cn>(conditional flag) <no of words> <Path to use trained model> text
-   ```
+```
+1 N-Gram Model
+     1.1 For unconditional text generation, use:
+        console
+      ./predict.sh ngram -un(unconditional flag) <no of words> <Path to use trained model>
    
-   #### LSTM Model
-
-   ##### 1. For lstm unconditional text generation, use:
-   ```console
-    ./predict.sh lstm  <un>(unconditional flag) <no of words> <Path to use trained model>
-   ```
-   ##### 2. For lstm conditional text generation,use:
-   ``` console
-   ./predict.sh lstm  <cn>(conditional flag) <no of words> <Path to use trained model> text
-   ```
+     1.2 For conditional text generation, use:
+        console
+      ./predict.sh ngram -cn(conditional flag) <no of words> <Path to use trained model> text
+      
+2. LSTM Model
+      2.1. For lstm unconditional text generation, use:
+         console
+         ./predict.sh lstm -un(unconditional flag) <no of words> <Path to use trained model>
+   
+      2.2. For lstm conditional text generation,use:
+         console
+         ./predict.sh lstm -cn(conditional flag) <no of words> <Path to use trained model> text
+  ```
 
 ## Tuning Parameters
-You can edit the parameters during training by specifying their values in the ```train``` file.
-
-Parameters that can be edited for ngram model:
--  default: 300
-
-Parameters that can be edited for lstm model:
-- No of Hidden layers,dafault 1
-- No of Nodes in each hidden layer,default 500
-- Dropout Factor, 0.1
-- No of Epochs, default 100
+```
+1. NGram Model
+   The following arguments for training are optional:
+   -g         Lidstone factor/Gamma[0.5]
+   -d         Kneserney discouting factor[0.75]
+2. LSTM Model
+   The following arguments for training are optional:
+   -h         No of Hidden layers[1]
+   -n         No of Nodes in each hidden layer[500]
+   -d         Dropout Factor[0.1]
+   -e         No of Epochs[100]
+   -l         Learning rate[0.001]
+   -b         Batch Size[128]
+```
  
 
 ## Output
