@@ -1,6 +1,6 @@
 # Language Modelling
 
-This application is an implementation of both the ngram and lstm models for training and testing data from social media channels(Facebook,Twitter and Instagram).
+This application is an implementation of both the statistical (Ngram based) and deeplearning (LSTM RNN based) language models built for three social media channels, Facebook,Twitter and Instagram. The api has functionality of training , testing models and predicting from them. The prediction can be done in ```unconditioned``` and ```conditioned``` ways.    
  
 
 ## Requirements
