@@ -23,6 +23,7 @@ The word "sequence" refers to 'tweets' for twitter, it can be post or a comment 
 ## Usage
 
 ### 1. Training
+Set the optional parameter values required for training in ```train.sh``` file.Default Values for parameters is present in Tuning Parameter Section.
 ```
 1.1 N-Gram Model,use
     console
@@ -55,7 +56,6 @@ The word "sequence" refers to 'tweets' for twitter, it can be post or a comment 
   ```
 
 ## Tuning Parameters
-You can edit the parameters during training by specifying their values in the ```train``` file.
 ```
 1. NGram Model
    The following arguments for training are optional:
