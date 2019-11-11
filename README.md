@@ -37,7 +37,7 @@ For lstm, use:
 
 For testing ngram, use:
 ```console
-./predict.sh ngram <Path to store trained model>
+./predict.sh ngram <Path to use trained model>
 ```
 
 For lstm unconditional text generation, use:
