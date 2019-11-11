@@ -24,40 +24,35 @@ The word "sequence" refers to 'tweets' for twitter, it can be post or a comment 
 
 ### 1. Training
 ```
-#### N-Gram Model
-For ngram, use:
-console
-./train.sh ngram <Path to data file> <Path to store trained model>
+     N-Gram Model,use
+     console
+    ./train.sh ngram <Path to data file> <Path to store trained model>
    
-#### LSTM Model
-For lstm, use:
-console
-./train.sh lstm <Path to data file> <Path to store trained model>
+     LSTM Model,use:
+     console
+     ./train.sh lstm <Path to data file> <Path to store trained model>
 ```
    
 ### 2.  Text Generation
-   #### N-Gram Model
-
-   ##### 1 For unconditional ngram text generation, use:
-   ```console
-   ./predict.sh ngram <un>(unconditional flag) <no of words> <Path to use trained model>
-   ```
-
-   ##### 2. For conditional ngram text generation, use:
-   ```console
-   ./predict.sh ngram <cn>(conditional flag) <no of words> <Path to use trained model> text
-   ```
+```
+N-Gram Model
+     1 For unconditional ngram text generation, use:
+        console
+      ./predict.sh ngram <un>(unconditional flag) <no of words> <Path to use trained model>
    
-   #### LSTM Model
-
-   ##### 1. For lstm unconditional text generation, use:
-   ```console
-    ./predict.sh lstm  <un>(unconditional flag) <no of words> <Path to use trained model>
-   ```
-   ##### 2. For lstm conditional text generation,use:
-   ``` console
-   ./predict.sh lstm  <cn>(conditional flag) <no of words> <Path to use trained model> text
-   ```
+     2. For conditional ngram text generation, use:
+        console
+      ./predict.sh ngram <cn>(conditional flag) <no of words> <Path to use trained model> text
+      
+LSTM Model
+      1. For lstm unconditional text generation, use:
+         console
+         ./predict.sh lstm  <un>(unconditional flag) <no of words> <Path to use trained model>
+   
+      2. For lstm conditional text generation,use:
+         console
+         ./predict.sh lstm  <cn>(conditional flag) <no of words> <Path to use trained model> text
+  ```
 
 ## Tuning Parameters
 You can edit the parameters during training by specifying their values in the ```train``` file.
