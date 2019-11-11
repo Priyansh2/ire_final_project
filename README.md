@@ -23,39 +23,40 @@ The word "sequence" refers to 'tweets' for twitter, it can be post or a comment 
 ## Usage
 
 ### Training
-#### N-Gram Model
-For ngram, use:
-```console
-./train.sh ngram <Path to data file> <Path to store trained model>
-```
-#### LSTM Model
-For lstm, use:
-```console
-./train.sh lstm <Path to data file> <Path to store trained model>
-```
-
+   #### N-Gram Model
+   For ngram, use:
+   ```console
+    ./train.sh ngram <Path to data file> <Path to store trained model>
+   ```
+   #### LSTM Model
+   For lstm, use:
+   ```console
+   ./train.sh lstm <Path to data file> <Path to store trained model>
+   ```
+   
 ### Text Generation
-#### N-Gram Model
+   #### N-Gram Model
 
-For unconditional ngram text generation, use:
-```console
-./predict.sh ngram <un>(unconditional flag) <no of words> <Path to use trained model>
-```
+   ##### For unconditional ngram text generation, use:
+   ```console
+   ./predict.sh ngram <un>(unconditional flag) <no of words> <Path to use trained model>
+   ```
 
-For conditional ngram text generation, use:
-```console
-./predict.sh ngram <cn>(conditional flag) <no of words> <Path to use trained model> text
-```
-#### LSTM Model
+   ##### For conditional ngram text generation, use:
+   ```console
+   ./predict.sh ngram <cn>(conditional flag) <no of words> <Path to use trained model> text
+   ```
+   
+   #### LSTM Model
 
-For lstm unconditional text generation, use:
-```console
-./predict.sh lstm  <un>(unconditional flag) <no of words> <Path to use trained model>
-```
-For lstm conditional text generation,use:
-``` console
-./predict.sh lstm  <cn>(conditional flag) <no of words> <Path to use trained model> text
-```
+   ##### For lstm unconditional text generation, use:
+   ```console
+    ./predict.sh lstm  <un>(unconditional flag) <no of words> <Path to use trained model>
+   ```
+   ##### For lstm conditional text generation,use:
+   ``` console
+   ./predict.sh lstm  <cn>(conditional flag) <no of words> <Path to use trained model> text
+   ```
 
 ## Tuning Parameters
 You can edit the parameters during training by specifying their values in the ```train``` file.
