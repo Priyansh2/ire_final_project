@@ -27,26 +27,26 @@ For training, use the train script.
 
 For ngram, use:
 ```console
-./train.sh ngram
+./train.sh ngram <Path to store trained model>
 ```
 
 For lstm, use:
 ```console
-./train.sh lstm
+./train.sh lstm <Path to store trained model>
 ```
 
 For testing ngram, use:
 ```console
-./predict.sh ngram
+./predict.sh ngram <Path to store trained model>
 ```
 
 For lstm unconditional text generation, use:
 ```console
-./predict.sh lstm <datatype>(facebook/twitter/instagram) <un>(unconditional flag)
+./predict.sh lstm <datatype>(facebook/twitter/instagram) <un>(unconditional flag) <Path to use trained model>
 ```
 For lstm conditional text generation,use:
 ``` console
-./predict.sh lstm <datatype>(facebookb/twitter/instagram) <cn>(conditional flag) text
+./predict.sh lstm <datatype>(facebookb/twitter/instagram) <cn>(conditional flag) <Path to store trained model> text
 ```
 
 ## Tuning Parameters
