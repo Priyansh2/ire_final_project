@@ -42,11 +42,11 @@ For testing ngram, use:
 
 For lstm unconditional text generation, use:
 ```console
-./predict.sh lstm <datatype>(fb/twitter/instagram) <un>(unconditional flag)
+./predict.sh lstm <datatype>(facebook/twitter/instagram) <un>(unconditional flag)
 ```
 For lstm conditional text generation,use:
 ``` console
-./predict.sh lstm <datatype>(fb/twitter/instagram) <cn>(conditional flag) text
+./predict.sh lstm <datatype>(facebookb/twitter/instagram) <cn>(conditional flag) text
 ```
 
 ## Tuning Parameters
