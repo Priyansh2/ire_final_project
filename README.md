@@ -12,14 +12,13 @@ pip install -r requirements.txt
  
 ## Data
  
-The training data can be found in the ```data/``` folder.
-Dataset Used
+The preprocessed training data can be found in the ```data/preprocessed``` folder for different social media platforms by name ```tw``` for twitter, ```insta```for instagram and ```fb``` for facebook. The stats for preprocessed data for all three platforms are given below.
 ```
-Twitter: 40Lakhs Tweets
-Instagram: 1.38 Lakh Caption
-FaceBook: 3.6 Lakh Post
+Twitter: 40.6 Lakhs sequences
+Instagram: 1.38 Lakhs sequences including instagram image captions and comments 
+FaceBook: 11.4 Lakhs sequences including facebook post and comments
 ``` 
- 
+The word "sequence" refers to 'tweets' for twitter, it can be post or a comment for facebook and similarly it can be caption or a comment for instagram.
  
 ## Usage
 
