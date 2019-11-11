@@ -67,6 +67,8 @@ Set the optional parameter values required for training in ```train.sh``` file.D
    -n         No of Nodes in each hidden layer[500]
    -d         Dropout Factor[0.1]
    -e         No of Epochs[100]
+   -l         Learning rate[0.001]
+   -b         Batch Size[128]
 ```
  
 
