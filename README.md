@@ -40,8 +40,7 @@ For testing ngram, use:
 ```
 
 For lstm unconditional text generation, use:
-```
-console
+```console
 ./predict lstm <datatype>(fb/twitter/instagram) <un>(unconditional flag)
 ```
 For lstm conditional text generation:
