@@ -40,10 +40,10 @@
 			<ul id="nav">
 				<li class="current"><a href="#welcome">Project Title</a></li>
 				<li><a href="#abstract">Abstract</a></li>
-				<li><a href="#relatedwork">Related Work</a></li>
+				<li><a href="#dataset">Data Collection Challenges</a></li>
+				<li><a href="#preprocess">Data PreProcessing Steps</a></li>
 				<li><a href="#baseline">Baseline Methodologies</a></li>
 				<li><a href="#architecture">Architecture</a></li>
-				<li><a href="#results">Results</a></li>
 				<li><a href="#analysis">Analysis</a></li>
 				<li><a href="#gitlink">GitHub Link</a></li>
 				<li><a href="#video">Video</a></li>
@@ -62,68 +62,86 @@ Building Language Models for various channels of social media
 			</section>
             
 			<section id="abstract">
-               <h2 class="title">Problem Statement</h2>
+               <h2 class="title">Project Abstract</h2>
 				<div class="section-content">
-					<p>Building language models for various channels of social media. Involves creating the training dataset for each channel, building the models(n-gram,lstm), generating the text using language models, comparing the results obtained across different datasets and different models.</p>
+					<p>In this project, <b>N-gram</b> and <b>LSTM RNN</b> based language models are built for facebook, twitter and instagram social media platforms. Data belonging to <b>news domain</b> was crawled and preprocessed for all three channels and language models were trained using open source libraries <b>‘nltk’</b> and <b>‘keras’</b>. </p>
+					<p>A single custom preprocessing script was written to clean and tokenize raw data (crawled data) for all three platforms.</p>
+					<p><b>The data statistics for all three preprocessed data are given below.</b>
+</p>
+                     <p><b>Twitter:</b> 40.6 Lakhs sequences</p>
+                     <p><b>Instagram:</b> 1.38 Lakhs sequences including instagram image captions and comments </p>
+                     <p><b>FaceBook:</b> 11.4 Lakhs sequences including facebook post and comments</p>
+                     <p><b>The General finding of this project are:</b></p>
+                     <p><b>1.</b> LSTM based language model perform better than N-gram based model for all three platforms.</p>
+                     <p><b>2.</b> The conditioned and conditioned text generated using <tw,fb,insta> LSTM model is of better quality than other models.</p>
 				</div>
 			</section>
-           
-			<section id="relatedwork">
-				<h2 class="title">Related Work</h2>
-
+           <section id="dataset">
+               <h2 class="title">Data Collection Challenges</h2>
 				<div class="section-content">
-					<ol>
-						<li>After unzip the download pack, you'll found a Template Folder with all the files.</li>
-						<li>You can view this Template in any browser, you can display or edit the Template without an internet connection.(May not wotrk fonts and google map).</li>
-						<li>The only section that will not work is the Contact Section which contains PHP code and requires a server environment for send messages.</li>
-						<li>Now go to your cpanel or open your FTP Client (like <a target="_blank" href="https://filezilla-project.org/download.php">Filezilla</a>) and upload the content of the Template on your server root.</li>
-						<li>Once the files are done uploading go to www.yourdomainname.com/index.html</li>
-					</ol>
+					<p><b>1.</b> Collecting the data was a major challenge especially for instagram and facebook because of unavailability of dataset online and differences in the styles of the data presented to the user which requires different crawlers for different platforms.</p>
+					<p><b>2.</b> Due to several limitations with their official apis it is not possible to crawl large amount of data and hence we used selenium based crawlers available online to crawl the data from these platforms.</p>
+					<p><b>3. </b>Selection of common domain for all three social media platforms was an issue. We choose “news” domain as it is one of the most commonly used domain in NLP as plenty of data is available online. </p>
+					<p><b>4. </b>Since the crawlers uses selenium which consume ram a lot and takes significant time, we decided to get around 1 million posts from both facebook and instagram respectively</p>
 				</div>
-
 			</section>
-
+            <section id="preprocess">
+               <h2 class="title">Data PreProcessing Steps</h2>
+				<div class="section-content">
+					<p><b>1. </b>Fix the encoding and unicode related problems.</p>
+					<p><b>2. </b>Reject a sequence if it contain improperly encoded using this check - “seq.encode(encoding='utf-8').decode('ascii')” </p>
+					<p><b>3. </b>Emojis were removed </p>
+					<p><b>4. </b>While processing the sequence, if it contains social media acronyms (slang short forms) then its converted to its corresponding full forms like 2gethr -> together etc.</p>
+					<p><b>5. </b>We removed the url, email and user addressing using ‘@’ (common in social media).</p>
+					<p><b>6. </b>We don’t remove hashtags as it might contain some useful information and used segmented form of it. For example, #TwinPeaks → twin peaks.</p>
+					<p><b>7. </b>We don’t remove the tokens which contain numbers like $500 (money), 8212121923 (phone number) , any number (decimal etc.), date and time. These tokens can have an impact in training language model and so are important. </p>
+					<p><b>8. </b>Perform Language Identification using ‘spacy’ to filter out any language mixed or non-english sequence</p>
+				</div>
+			</section>
             <section id="baseline">
                <h2 class="title">Baseline Methodologies</h2>
 				<div class="section-content">
-					<p>Building language models for various channels of social media. Involves creating the training dataset for each channel, building the models(n-gram,lstm), generating the text using language models, comparing the results obtained across different datasets and different models.</p>
+					<p><b>N-gram based model.</b>We experimented with different N-gram models:</p>
+					<p><b>1.</b> Maximum Likelihood Estimation (MLE) model.</p>
+                    <p><b>2.</b> MLE with Lidstone smoothing.</p>
+                    <p><b>3.</b> Linear Interpolation N-gram model with WittenBell smoothing.</p>
+                    <p><b>4. </b>Linear Interpolation N-gram model with Kneserney smoothing</p>
 				</div>
 			</section>
 			<section id="architecture">
                <h2 class="title">Architecture</h2>
 				<div class="section-content">
-					<p>Building language models for various channels of social media. Involves creating the training dataset for each channel, building the models(n-gram,lstm), generating the text using language models, comparing the results obtained across different datasets and different models.</p>
-				</div>
-			</section>
-			<section id="results">
-               <h2 class="title">Results</h2>
-				<div class="section-content">
-					<p>Building language models for various channels of social media. Involves creating the training dataset for each channel, building the models(n-gram,lstm), generating the text using language models, comparing the results obtained across different datasets and different models.</p>
+					<img src="img/Architecture.jpg" alt="Smiley face" height="400" width="800"> 
 				</div>
 			</section>
 			<section id="analysis">
                <h2 class="title">Analysis</h2>
 				<div class="section-content">
-					<p>Building language models for various channels of social media. Involves creating the training dataset for each channel, building the models(n-gram,lstm), generating the text using language models, comparing the results obtained across different datasets and different models.</p>
+					<p><b>Ngram model</b></p>
+					<p><b>1. </b> Performance of ngram model for every platform data is increases as order of language model increases from 1 to 3. For each social platform, they perform poorer than LSTM based language model.</p>
+                    <p><b>2. </b>We experimented with 4 types of model ad found that Interpolated model with kneserney smoothing performs better than remaining 3 for all three platforms. For twitter data wittenbell model gave almost similar performance as kneserney gives.</p>
+                    <p><b>3. </b>With respect to ‘amount of data’ as a parameter, we find that training n-gram based model consume RAM a lot and also takes time to train.</p>
+                    <p><b>4. </b>Quality of text generated using Interpolated models are almost identical for all three platforms but is worse than that of LSTM based. </p>
+
+					<p><b>LSTM Model</b></p>
+					<p><b>1. </b>Since the data is huge, we had memory issues, as even with 25 GB RAM, we were running out of memory. To resolve this we have used,  sparse categorical cross entropy  for loss function which uses integers as labels. Before that we were using, categorical cross entropy which was one hot encoding, resulting into huge memory consumption.</p>
+					<p><b>2. </b>Adam optimizer gave better models than RMSprop, SGD.</p>
+					<p><b>3. </b>For adam optimizer, we tried different values of learning rate, the best results were at 0.001</p>
+					<p><b>4. </b>We have included dropout layer with rate of 0.1 after the last lstm layer to avoid overfitting which was the case with out previously trained models.</p>
+					<p><b>5. </b>We tried different batch sizes. But for larger batch sizes(512,1024), the model showed very poor convergence. Hence, we have trained on batch size of 128.</p>
 				</div>
 			</section>
 			<section id="gitlink">
                <h2 class="title">Code-Link</h2>
 				<div class="section-content">
-					<p>Building language models for various channels of social media. Involves creating the training dataset for each channel, building the models(n-gram,lstm), generating the text using language models, comparing the results obtained across different datasets and different models.</p>
+					<a href="https://github.com/Priyansh2/ire_final_project">Github Repository Link</a> 
 				</div>
-			</section>
-
-
-			
-
-
-			
+			</section>	
       <section id="video">
       	<h2 class="title"> Video Tutorial </h2>
       	<!-- 21:9 aspect ratio -->
       	<div class="embed-responsive embed-responsive-21by9">
-      		<iframe class="embed-responsive-item" width="100%" height="515" src="https://www.youtube.com/embed/i7_PRPLOxVE?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+      		<iframe class="embed-responsive-item" width="100%" height="515" src="https://youtu.be/HnANGGJEUCo &amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
       	</div>	            
       </section>
   </div>
