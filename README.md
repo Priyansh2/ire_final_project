@@ -24,6 +24,7 @@ FaceBook: 3.6 Lakh Post
 ## Usage
 
 For training, use the train script.
+
 For ngram, use:
 ```console
 ./train ngram
@@ -43,15 +44,16 @@ For lstm unconditional text generation, use:
 ```console
 ./predict lstm <datatype>(fb/twitter/instagram) <un>(unconditional flag)
 ```
-For lstm conditional text generation:
+For lstm conditional text generation,use:
 ``` console
 ./predict lstm <datatype>(fb/twitter/instagram) <cn>(conditional flag) text
 ```
 
 ## Tuning Parameters
 You can edit the parameters during training by specifying their values in the ```train``` file.
+
 Parameters that can be edited for ngram model:
-- , default: 300
+-  default: 300
 
 Parameters that can be edited for lstm model:
 - No of Hidden layers,dafault 1
