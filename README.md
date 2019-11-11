@@ -34,20 +34,19 @@ For lstm, use:
 ./train lstm
 ```
 
-For testing, use the predict script.
-For ngram, use:
+For testing ngram, use:
 ```console
 ./predict ngram
 ```
 
-For lstm, use:
-For unconditional text generation:
-```console
-   ./predict lstm <datatype>(fb/twitter/instagram) <un>(unconditional flag)
+For lstm unconditional text generation, use:
 ```
-For conditional text generation:
+console
+./predict lstm <datatype>(fb/twitter/instagram) <un>(unconditional flag)
+```
+For lstm conditional text generation:
 ``` console
-    ./predict lstm <datatype>(fb/twitter/instagram) <cn> text
+./predict lstm <datatype>(fb/twitter/instagram) <cn>(conditional flag) text
 ```
 
 ## Tuning Parameters
