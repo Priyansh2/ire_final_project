@@ -46,7 +46,7 @@ For lstm unconditional text generation, use:
 ```
 For lstm conditional text generation,use:
 ``` console
-./predict.sh lstm <datatype>(facebookb/twitter/instagram) <cn>(conditional flag) <Path to store trained model> text
+./predict.sh lstm <datatype>(facebookb/twitter/instagram) <cn>(conditional flag) <Path to use trained model> text
 ```
 
 ## Tuning Parameters
