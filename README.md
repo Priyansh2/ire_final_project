@@ -14,9 +14,10 @@ pip install -r requirements.txt
  
 The training data can be found in the ```data/``` folder.
 Dataset Used
-```Twitter: 40Lakhs Tweets
-   Instagram: 1.38 Lakh Caption
-   FaceBook: 3.6 Lakh Post
+```
+Twitter: 40Lakhs Tweets
+Instagram: 1.38 Lakh Caption
+FaceBook: 3.6 Lakh Post
 ``` 
  
  
@@ -40,14 +41,14 @@ For ngram, use:
 ```
 
 For lstm, use:
-   For unconditional text generation:
-   ```console
-      ./predict lstm <datatype>(fb/twitter/instagram) <un>(unconditional flag)
-   ```
-   For conditional text generation:
-   ``` console
-      ./predict lstm <datatype>(fb/twitter/instagram) <cn> text
-   ```
+For unconditional text generation:
+```console
+   ./predict lstm <datatype>(fb/twitter/instagram) <un>(unconditional flag)
+```
+For conditional text generation:
+``` console
+    ./predict lstm <datatype>(fb/twitter/instagram) <cn> text
+```
 
 ## Tuning Parameters
 You can edit the parameters during training by specifying their values in the ```train``` file.
