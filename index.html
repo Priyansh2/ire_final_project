@@ -44,7 +44,6 @@
 				<li><a href="#preprocess">Data PreProcessing Steps</a></li>
 				<li><a href="#baseline">Baseline Methodologies</a></li>
 				<li><a href="#architecture">Architecture</a></li>
-				<li><a href="#results">Evaluation Mechanism & Results</a></li>
 				<li><a href="#analysis">Analysis</a></li>
 				<li><a href="#gitlink">GitHub Link</a></li>
 				<li><a href="#video">Video</a></li>
@@ -115,16 +114,21 @@ Building Language Models for various channels of social media
 					<img src="img/Architecture.jpg" alt="Smiley face" height="400" width="800"> 
 				</div>
 			</section>
-			<section id="results">
-               <h2 class="title">Evaluation Mechanism & Results</h2>
-				<div class="section-content">
-					 
-				</div>
-			</section>
 			<section id="analysis">
                <h2 class="title">Analysis</h2>
 				<div class="section-content">
-					<p>Building language models for various channels of social media. Involves creating the training dataset for each channel, building the models(n-gram,lstm), generating the text using language models, comparing the results obtained across different datasets and different models.</p>
+					<p><b>Ngram model</b></p>
+					<p><b>1. </b> Performance of ngram model for every platform data is increases as order of language model increases from 1 to 3. For each social platform, they perform poorer than LSTM based language model.</p>
+                    <p><b>2. </b>We experimented with 4 types of model ad found that Interpolated model with kneserney smoothing performs better than remaining 3 for all three platforms. For twitter data wittenbell model gave almost similar performance as kneserney gives.</p>
+                    <p><b>3. </b>With respect to ‘amount of data’ as a parameter, we find that training n-gram based model consume RAM a lot and also takes time to train.</p>
+                    <p><b>4. </b>Quality of text generated using Interpolated models are almost identical for all three platforms but is worse than that of LSTM based. </p>
+
+					<p><b>LSTM Model</b></p>
+					<p><b>1. </b>Since the data is huge, we had memory issues, as even with 25 GB RAM, we were running out of memory. To resolve this we have used,  sparse categorical cross entropy  for loss function which uses integers as labels. Before that we were using, categorical cross entropy which was one hot encoding, resulting into huge memory consumption.</p>
+					<p><b>2. </b>Adam optimizer gave better models than RMSprop, SGD.</p>
+					<p><b>3. </b>For adam optimizer, we tried different values of learning rate, the best results were at 0.001</p>
+					<p><b>4. </b>We have included dropout layer with rate of 0.1 after the last lstm layer to avoid overfitting which was the case with out previously trained models.</p>
+					<p><b>5. </b>We tried different batch sizes. But for larger batch sizes(512,1024), the model showed very poor convergence. Hence, we have trained on batch size of 128.</p>
 				</div>
 			</section>
 			<section id="gitlink">
@@ -137,7 +141,7 @@ Building Language Models for various channels of social media
       	<h2 class="title"> Video Tutorial </h2>
       	<!-- 21:9 aspect ratio -->
       	<div class="embed-responsive embed-responsive-21by9">
-      		<iframe class="embed-responsive-item" width="100%" height="515" src="https://www.youtube.com/embed/i7_PRPLOxVE?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+      		<iframe class="embed-responsive-item" width="100%" height="515" src="https://youtu.be/HnANGGJEUCo &amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
       	</div>	            
       </section>
   </div>
