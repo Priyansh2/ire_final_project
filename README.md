@@ -82,7 +82,9 @@ Moreover, the trianing data should be preprocessed beforehand. You can also use 
 ``` 
 
 ## Output
-Trained models are stored in form of ```.pkl``` files in the ```lm_models/<model_type>/<data_type>```. Here <model_type> is ```ngram_models```
+```
+Trained models of all three social platforms are stored in ```lm_models/<model_type>/<data_type>```. Here <model_type> is ```ngram_models``` if model trained is N-gram else it is "lstm_models". 
 Predicted text will be displayed in console.         
 
 Download necessaary utils from https://iiitaphyd-my.sharepoint.com/:f:/g/personal/priyansh_agrawal_research_iiit_ac_in/EnV74VjDxMNNohD1LJ1QE5oB8eHv39TGAAhSAIXA1nC5mQ?e=CMuQyv
+```

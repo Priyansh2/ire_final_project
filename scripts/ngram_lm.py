@@ -1,3 +1,4 @@
+import argparse
 import os,re,sys,dill as pickle, json,itertools,string
 from sklearn.model_selection import train_test_split
 from collections import Counter,defaultdict
@@ -6,7 +7,7 @@ from nltk.lm.preprocessing import pad_both_ends,flatten,padded_everygram_pipelin
 from nltk.lm import MLE,Vocabulary,Lidstone,WittenBellInterpolated,KneserNeyInterpolated
 from nltk.tokenize.treebank import TreebankWordDetokenizer
 detokenize = TreebankWordDetokenizer().detokenize
-DATA_TYPE="fb"
+'''DATA_TYPE="fb"
 if DATA_TYPE in ("tw","insta","fb"):
 	DATA_PATH = "../data/preprocessed_data/"+DATA_TYPE
 	for file in os.listdir(DATA_PATH):
@@ -20,8 +21,8 @@ if DATA_TYPE in ("tw","insta","fb"):
 
 else:
 	raise Exception('DATA_TYPE incorrectly defined!')
-
-
+'''
+MODEL_PATH=""
 ngram_map={1:"unigram",2:"bigram",3:"trigram"}
 
 def save_model(file_path,model):
@@ -48,12 +49,16 @@ def punctuations_removal(tokens,type_="str"):
 	else:
 		return tokens.translate(translator)
 
-def train_test_dev_split(data_path,output_path):
+def train_test_dev_split(data_path,output_path=None):
 	print("Splitting data into train,test and dev..")
 	data_sents = [punctuations_removal(line.strip().split(),type_="list") for line in open(data_path).read().split("\n") if line.strip()]
 	train_sents, test_sents = train_test_split(data_sents, test_size = 0.2)
 	test_sents,dev_sents = train_test_split(test_sents,test_size=0.5)
-	p = os.path.join(output_path,"train_sents.pkl")
+	if output_path:
+		p = os.path.join(output_path,"train_sents.pkl")
+		if not os.path.exists(p):
+			save_model(p,train_sents)
+	'''p = os.path.join(output_path,"train_sents.pkl")
 	if not os.path.exists(p):
 		save_model(p,train_sents)
 	p = os.path.join(output_path,"test_sents.pkl")
@@ -61,7 +66,7 @@ def train_test_dev_split(data_path,output_path):
 		save_model(p,test_sents)
 	p = os.path.join(output_path,"dev_sents.pkl")
 	if not os.path.exists(p):
-		save_model(p,dev_sents)
+		save_model(p,dev_sents)'''
 	return train_sents,test_sents,dev_sents
 
 def get_model_data():
@@ -109,7 +114,7 @@ def language_model(train_data,n=3,model_type="mle",smoothing_type=None,params={"
 def mle_model(n,train_data,forced_save):
 	train_ngrams,train_vocab = train_data["ngrams"],train_data["vocab"]
 	print("Training MLE model..")
-	p=os.path.join(MODEL_PATH,str(n)+"-mle.pkl")
+	p=os.path.join(MODEL_PATH+".pkl")
 	if forced_save and os.path.exists(p):
 		os.remove(p)
 	if not os.path.exists(p):
@@ -121,7 +126,7 @@ def mle_model(n,train_data,forced_save):
 def lid_model(n,train_data,gamma,forced_save):
 	train_ngrams,train_vocab = train_data["ngrams"],train_data["vocab"]
 	print("Training Lidstone model..")
-	p=os.path.join(MODEL_PATH,str(n)+"-mle-lid-"+str(gamma)+".pkl")
+	p=os.path.join(MODEL_PATH+".pkl")
 	if forced_save and os.path.exists(p):
 		os.remove(p)
 	if not os.path.exists(p):
@@ -133,7 +138,7 @@ def lid_model(n,train_data,gamma,forced_save):
 def wb_interp_model(n,train_data,forced_save):
 	train_ngrams,train_vocab = train_data["ngrams"],train_data["vocab"]
 	print("Training Interpolation model with Wittenbell smoothing..")
-	p=os.path.join(MODEL_PATH,str(n)+"-interp-wb.pkl")
+	p=os.path.join(MODEL_PATH+".pkl")
 	if forced_save and os.path.exists(p):
 		os.remove(p)
 	if not os.path.exists(p):
@@ -145,7 +150,7 @@ def wb_interp_model(n,train_data,forced_save):
 def ksn_interp_model(n,train_data,discount,forced_save):
 	train_ngrams,train_vocab = train_data["ngrams"],train_data["vocab"]
 	print("Training Interpolation model with KneserNey smoothing..")
-	p=os.path.join(MODEL_PATH,str(n)+"-interp-ksn-"+str(discount)+".pkl")
+	p=os.path.join(MODEL_PATH+".pkl")
 	if forced_save and os.path.exists(p):
 		os.remove(p)
 	if not os.path.exists(p):
@@ -244,7 +249,8 @@ def model_batch_perplexity_test(models):
 			print(model_type,model_name,data_perplexity(int(model_type),test_data["ngrams"],models[model_type][model_name]))
 
 def main():
-	if os.path.exists(MODEL_DATA_PATH):
+	global MODEL_PATH
+	'''if os.path.exists(MODEL_DATA_PATH):
 		if len(os.listdir(MODEL_DATA_PATH))==0:
 			train_sents,test_sents,dev_sents = train_test_dev_split(DATA_PATH,MODEL_DATA_PATH)
 		else:
@@ -256,9 +262,45 @@ def main():
 		train_sents,test_sents,dev_sents = train_test_dev_split(DATA_PATH,MODEL_DATA_PATH)
 	print("Training sents: ",len(train_sents))
 	print("Testing sents: ",len(test_sents))
-	print("Development sents: ",len(dev_sents))
-	lm_types={"mle":[None,"lid"],"interp":["wb","ksn"]} ## (ngram_model,smoothing) pairs
-	N=[1,2,3]
+	print("Development sents: ",len(dev_sents))'''
+	parser = argparse.ArgumentParser()
+	parser.add_argument('-i', help='Training data file', dest='filepath')
+	parser.add_argument('-pkl', help='Training data format: 0-text format and 1-pickled format', dest='data_format',default=1,type=int)
+	parser.add_argument('-o', help='Output model file (e.g: ./data/<model_name_without_extension>)', dest='modelpath')
+	parser.add_argument('-g', help='Lidstone Parameter: 0<=g<=1', dest='g',default=0.5,type=int)
+	parser.add_argument('-d', help='Kneserney Discount Factor: 0<=d<=1', dest='d',default=0.75,type=int)
+	parser.add_argument('-t', help='Ngram model type (e.g: 1): 1-MLE,2-Interpolated wittenbell,3-Interpolated kneserney,4-MLE lidstone', dest='model_type',default=1,type=int)
+	parser.add_argument('-n', help='Ngram order (e.g: 1): 1-unigram,2-bigram,3-trigram', dest='model_order',default=3,type=int)
+
+	args = parser.parse_args()
+
+	model_map_={1:"mle",2:"interp",3:"interp",4:"mle"}
+	MODEL_PATH = args.modelpath
+	g = args.g
+	d = args.d
+	N = [args.model_order]
+	train_data_path = args.filepath
+	if args.data_format:
+		train_sents = train_data_path
+	else:
+		train_sents,_,_ = train_test_dev_split(train_data_path)
+	if args.model_type==2:
+		smoothing_type="wb"
+	elif args.model_type==3:
+		smoothing_type="ksn"
+	elif args.model_type==4:
+		if g!=0:
+			smoothing_type="lid"
+		else:
+			raise Exception('Value of g cant be zero with Lidstone smoothing!')
+	else:
+		smoothing_type=None
+
+	lm_type ={model_map_[args.model_type]:[smoothing_type]}
+	#lm_types={"mle":[None,"lid"],"interp":["wb","ksn"]} ## (ngram_model,smoothing) pairs
+	#N=[1,2,3]
+	print("Training sents: ",len(train_sents))
+
 	train_language_models(N,train_sents,lm_types,forced_save=True)
 
 	#models = get_models()
