@@ -37,45 +37,49 @@ Moreover, the trianing data should be preprocessed beforehand. You can also use 
      console
     ./train.sh lstm <Path to train data> <Path to store trained model>
 ```
-   
-### 2.  Text Generation
-```
-1 N-Gram Model
-     1.1 For unconditional text generation, use:
-        console
-      ./predict.sh ngram -un <no of words> <Path to use trained model>
-   
-     1.2 For conditional text generation, use:
-        console
-      ./predict.sh ngram -cn <no of words> <Path to use trained model> text
-      
-2. LSTM Model
-      2.1. For lstm unconditional text generation, use:
-         console
-         ./predict.sh lstm -un <no of words> <Path to use trained model>
-   
-      2.2. For lstm conditional text generation,use:
-         console
-         ./predict.sh lstm -cn <no of words> <Path to use trained model> text
-
-  -cn   Conditional text generation flag
-  -un   Uncondiitonal text generation flag
-  text  context text. Format: space separated tokens string 
-  ```
+ ### HyperParameter
+```  
 1. NGram Model
    The following arguments for training are optional:
    -g         Lidstone factor/Gamma[0.5]
    -d         Kneserney discouting factor[0.75]
 2. LSTM Model
    The following arguments for training are optional:
-   -h         No of Hidden layers[1]
+   -hl        No of Hidden layers[1]
    -n         No of Nodes in each hidden layer[500]
-   -d         Dropout Factor[0.1]
+   -dr        Dropout Factor[0.1]
    -e         No of Epochs[100]
-   -l         Learning rate[0.001]
+   -lr        Learning rate[0.001]
    -b         Batch Size[128]
+   -i         Training data file
+   -o         Output model file(Ex: /data/model1)
+   -w         (word embedding: no/pre-glove/glove)[no]
+```  
+   
+### 2.  Text Generation
 ```
- 
+1 N-Gram Model
+     1.1 For unconditional text generation, use:
+        console
+      ./predict.sh ngram 0 <no of words> <Path to use trained model>
+   
+     1.2 For conditional text generation, use:
+        console
+      ./predict.sh ngram 1 <no of words> <Path to use trained model> text
+      
+2. LSTM Model
+      2.1. For lstm unconditional text generation, use:
+         console
+         ./predict.sh lstm 0 <no of words> <Path to use trained model>
+   
+      2.2. For lstm conditional text generation,use:
+         console
+         ./predict.sh lstm 1 <no of words> <Path to use trained model> text
+
+  1   Conditional text generation flag
+  0   Uncondiitonal text generation flag
+  text  context text. Format: space separated tokens string 
+``` 
 
 ## Output
 Trained models are stored in form of ```.pkl``` files in the ```lm_models/<model_type>/<data_type>```. Here <model_type> is ```ngram_models```
