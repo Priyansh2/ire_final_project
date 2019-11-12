@@ -13,7 +13,7 @@ from keras.models import load_model
 
 parser = argparse.ArgumentParser()
 
-parser.add_argument('-f',help='u(unconditioned)/c(conditioned)', dest='flag',default='u')
+parser.add_argument('-f',help='unconditioned[0]/conditioned[1]', dest='flag',default='0')
 parser.add_argument('-m', help='Model Path with model name', dest='modelpath')
 parser.add_argument('-i', help='Input Sequence', dest='input', default="")
 parser.add_argument('-l', help='Number of words to be predicted', dest='length', default=1,type=int)
