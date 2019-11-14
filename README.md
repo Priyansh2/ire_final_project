@@ -11,7 +11,7 @@ pip install -r requirements.txt
 
 ## Data
  
-The preprocessed data for each platforms are splitted into train-test-dev in ratio 8:1:1 using script ```train_test_dev_split.py``` found in ```scripts``` folder. The data is shuffled before making the splits. The data splits for various social platforms can be found under ```model_data/<type>``` where <type> is the directory name for specific social media platform which is as follows: ```tw``` for twitter, ```insta```for instagram and ```fb``` for facebook. 
+The preprocessed data for each platforms are splitted into train-test-dev in ratio 8:1:1 using script ```train_test_dev_split.py``` found in ```scripts``` folder. The data is shuffled before making the splits. The data splits for various social platforms can be found under ```model_data/<social_type>``` where "<social_type>" is the directory name for specific social media platform which is as follows: ```tw``` for twitter, ```insta```for instagram and ```fb``` for facebook. 
 The statistics for preprocessed data for all three platforms are given below.
 ```
 Twitter: 40.6 Lakhs sequences
@@ -65,7 +65,7 @@ Moreover, the trianing data should be preprocessed beforehand. You can also use 
    
 ### 2. Predicting (Text Generation)
 
-Set the various parameter values required for text generation in ```predict.sh```.Predicted text will be displayed in console along with the seed text (if provided)
+Set the various parameter values required for text generation in ```predict.sh```.Predicted text will be displayed in console along with the seed text (if provided).
 
 1. N-Gram Model
 ```
@@ -101,11 +101,12 @@ text          Seed/Context sequence.Format: 'space separated tokens' string
 
 ## Output
 
-Trained models of all three social platforms are stored in ```lm_models/<model_technique>/<type>```. Here '<model_technique>' is the type of technology used to build language model. If model is N-gram based then its value is ```ngram_models``` else ```lstm_models```. '<type>' is the directory name for specific social media platform which is as follows: ```tw``` for twitter, ```insta```for instagram and ```fb``` for facebook.
+Trained models of all three social platforms are stored in ```lm_models/<model_technique>/<social_type>```.  Here "<model_technique>" is the type of technology used to build language model. If model is N-gram based then its value is ```ngram_models``` else ```lstm_models```. "<social_type>" is the directory name for specific social media platform which is as follows: ```tw``` for twitter, ```insta```for instagram and ```fb``` for facebook.
 Each model has its own output format like model inside "ngram_models" are in ```.pkl``` where as models in "lstm_models" are in ```.hdf5``` format.
 
-```NOTE: This git repository don't contain heavy files because of file-size limitation (max 100 MB is allowed) by github and will be available from below mentioned link. All the N-gram based models and training data of of all social platforms are present in "bzip2" compressed form. Originally they all were in pickled form (.pkl)
-         
-
+```NOTE:```
+This git repository don't contain heavy files because of file-size limitation (max 100 MB is allowed) by github and will be available from below mentioned link. All the N-gram based models and training data of of all social platforms are present in "bzip2" compressed form (.bz2). Originally they all were in pickled form (.pkl)
+        
+```LINK:``` 
 https://iiitaphyd-my.sharepoint.com/:f:/g/personal/priyansh_agrawal_research_iiit_ac_in/EnV74VjDxMNNohD1LJ1QE5oB8eHv39TGAAhSAIXA1nC5mQ?e=CMuQyv
-```
+
