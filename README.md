@@ -90,11 +90,12 @@ Set the various parameter values required for text generation in ```predict.sh``
        
     
 
-  
-  <no of words> No. of words to be generated
-  1             Flag for Conditional text generation
-  0             Flag for Unconditional text generation
-  text          Seed/Context sequence.Format: 'space separated tokens' string
+### Parameters
+
+<no of words> No. of words to be generated
+1             Flag for Conditional text generation
+0             Flag for Unconditional text generation
+text          Seed/Context sequence.Format: 'space separated tokens' string
  
 ```
 
