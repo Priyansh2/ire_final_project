@@ -27,7 +27,7 @@ The word "sequence" refers to 'tweets' for twitter, it can be post or a comment 
 Set the various parameter values required for training in ```train.sh```. Default Values for parameters is present in Parameter Section and also set in 'train.sh' file. 
 The format of training file can be both "pickled" and "text". If the format is pickled, then it would expect it to be a list of sequences where each sequence is of ```string``` format and if its in text format then it would expect one sequence per line or sequences separated by newline character.  
 Moreover, the trianing data should be preprocessed beforehand. You can also use our preprocess script built for the purpose which is located in ```scripts/preprocess.py``` which would take raw text file and outputs preprocessed text file with each sequence in each line.
-
+```
   1.1 For training N-Gram Model, use:
     ```console
     ./train.sh ngram <Path to train data> <Path to store trained model>
@@ -40,7 +40,7 @@ Moreover, the trianing data should be preprocessed beforehand. You can also use 
 
 ```
 ### Parameters
- 
+``` 
 1. NGram Model
    The following arguments for training are optional:
    -g         Lidstone paramter(Gamma)[0.5]
@@ -70,7 +70,7 @@ Moreover, the trianing data should be preprocessed beforehand. You can also use 
 Set the various parameter values required for text generation in ```predict.sh```.Predicted text will be displayed in console along with the seed text (if provided)
 
 1. N-Gram Model
-
+```
   1.1 For unconditional text generation, use:
     ```console
     ./predict.sh ngram 0 <no of words> <path of pre-trained model>
@@ -80,9 +80,9 @@ Set the various parameter values required for text generation in ```predict.sh``
     ```console
     ./predict.sh ngram 1 <no of words> <path of pre-trained model> text
     ```
-
+```
 2. LSTM Model
-
+```
   2.1. For unconditional text generation, use:
     ```console
     ./predict.sh lstm 0 <no of words> <path of pre-trained model>
