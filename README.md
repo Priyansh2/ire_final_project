@@ -28,11 +28,12 @@ Set the various parameter values required for training in ```train.sh```. Defaul
 The format of training file can be both "pickled" and "text". If the format is pickled, then it would expect it to be a list of sequences where each sequence is of ```string``` format and if its in text format then it would expect one sequence per line or sequences separated by newline character.  
 Moreover, the trianing data should be preprocessed beforehand. You can also use our preprocess script built for the purpose which is located in ```scripts/preprocess.py``` which would take raw text file and outputs preprocessed text file with each sequence in each line.
 
-  1.1 N-Gram Model,use
+  1.1 For training N-Gram Model, use:
     ```console
     ./train.sh ngram <Path to train data> <Path to store trained model>
     ```
-  1.2 LSTM Model,use:
+  
+  1.2 For training LSTM Model, use:
     ```console
     ./train.sh lstm <Path to train data> <Path to store trained model>
     ```
@@ -69,16 +70,19 @@ Moreover, the trianing data should be preprocessed beforehand. You can also use 
 Set the various parameter values required for text generation in ```predict.sh```.Predicted text will be displayed in console along with the seed text (if provided)
 
 1. N-Gram Model
+
   1.1 For unconditional text generation, use:
     ```console
     ./predict.sh ngram 0 <no of words> <path of pre-trained model>
     ```
+  
   1.2 For conditional text generation, use:
     ```console
     ./predict.sh ngram 1 <no of words> <path of pre-trained model> text
     ```
 
 2. LSTM Model
+
   2.1. For unconditional text generation, use:
     ```console
     ./predict.sh lstm 0 <no of words> <path of pre-trained model>
