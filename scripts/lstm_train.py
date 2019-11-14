@@ -150,7 +150,7 @@ parser.add_argument('-e', help='Number of training epochs', dest='epochs', defau
 parser.add_argument('-b', help='Batch size', dest='b', default=128, type=int)
 parser.add_argument('-i', help='Training data file', dest='filepath')
 parser.add_argument('-o', help='Output model file (e.g: /data/model1)', dest='modelpath')
-parser.add_argument('-we', help='Word embedding: no/pre-glove/glove', dest='word_embed',default='no')
+parser.add_argument('-w', help='Word embedding: no/pre-glove/glove', dest='word_embed',default='no')
 args = parser.parse_args()
 
 
