@@ -29,13 +29,15 @@ The format of training file can be both "pickled" and "text". If the format is p
 Moreover, the trianing data should be preprocessed beforehand. You can also use our preprocess script built for the purpose which is located in ```scripts/preprocess.py``` which would take raw text file and outputs preprocessed text file with each sequence in each line.
 ```
   1.1 For training N-Gram Model, use:
-      console
+      ```console
       ./train.sh ngram <Path to train data> <Path to store trained model>
+      ```
     
   
   1.2 For training LSTM Model, use:
-      console
+      ```console
      ./train.sh lstm <Path to train data> <Path to store trained model>
+     ```
 ```
 ### Parameters
 ``` 
@@ -70,32 +72,37 @@ Set the various parameter values required for text generation in ```predict.sh``
 1. N-Gram Model
 ```
   1.1 For unconditional text generation, use:
-      console
+      ```console
       ./predict.sh ngram 0 <no of words> <path of pre-trained model>
+      ```
      
   
   1.2 For conditional text generation, use:
-      console
+      ```console
       ./predict.sh ngram 1 <no of words> <path of pre-trained model> text
+      ```
      
 ```
 2. LSTM Model
 ```
   2.1. For unconditional text generation, use:
-       console
+       ```console
        ./predict.sh lstm 0 <no of words> <path of pre-trained model>
+       ```
     
    
   2.2. For conditional text generation,use:
-       console
+       ```console
        ./predict.sh lstm 1 <no of words> <path of pre-trained model> text
+       ```
     
 
-  console:
+  ```console:
   <no of words> No. of words to be generated
   1             Flag for Conditional text generation
   0             Flag for Unconditional text generation
-  text          Seed/Context sequence.Format: 'space separated tokens' string 
+  text          Seed/Context sequence.Format: 'space separated tokens' string
+  ```
 ```
 
 ## Output
