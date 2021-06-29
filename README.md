@@ -1,6 +1,6 @@
 # Language Modelling
 
-This application is an implementation of both the statistical (Ngram based) and deeplearning (LSTM RNN based) language models built for three social media channels namely, Facebook,Twitter and Instagram. The api has functionality of training , testing models and predicting from them. By 'prediction' it means text generation using trained language model which can be done in ```unconditioned``` and ```conditioned``` ways. Read following sections to know more about it.    
+In this project we have implemented Ngram and RNN based language models for three social media channels namely, Facebook,Twitter and Instagram. The API provides command line for training & testing models and predicting from them. By the word 'prediction', we means 'text generation' using pre-trained language model which can be done in ```unconditioned``` and ```conditioned``` ways. Read following sections to know more about it.    
 
 ## Requirements
 
