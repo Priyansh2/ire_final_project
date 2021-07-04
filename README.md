@@ -1,5 +1,5 @@
 # Language Modelling
-In this project, we have implemented Ngram and RNN based language models using NLTK, Spacy, and Keras for three social media channels: Facebook, Twitter, and Instagram. The API provides command line for training, testing and predicting (text generation) from pre-trained models in both unconditioned and conditioned ways. Read following sections to know more about it.    
+In this project, we have developed Ngram and RNN based language models using NLTK, Spacy, and Keras for three social media channels: Facebook, Twitter, and Instagram. The API provides command line for training, testing and predicting (text generation) from pre-trained models in both unconditioned and conditioned ways. Read following sections to know more about it.    
 
 ## Requirements
 
